@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APK Download Center</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+            position: relative;
+            color: white;
+        }
+        
+        #game-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        .content {
+            position: relative;
+            z-index: 1;
+            padding: 20px;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            margin: 50px auto;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+        }
+        
+        h1 {
+            color: #4CAF50;
+            text-shadow: 2px 2px 4px #000000;
+        }
+        
+        .apk-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin: 25px 0;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        
+        .apk-card:hover {
+            transform: scale(1.02);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .app-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 15px;
+            object-fit: cover;
+            border: 2px solid #4CAF50;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .download-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .download-btn:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .app-info {
+            margin: 10px 0;
+        }
+        
+        .version-badge {
+            background-color: #2196F3;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        
+        .size-badge {
+            background-color: #ff9800;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+        
+        @media (max-width: 600px) {
+            .content {
+                width: 90%;
+                padding: 15px;
+            }
+            
+            .app-image {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container"></div>
+    
+    <div class="content">
+        <h1>📱 APK Download Center</h1>
+        <p>Download premium apps for free</p>
+        
+        <div class="apk-card">
+            <img src="https://via.placeholder.com/100x100/4CAF50/FFFFFF?text=App+1" alt="App 1" class="app-image">
+            <h3>flappy bird</h3>
+            <div class="app-info">
+                <span class="version-badge">v1.2.3</span>
+                <span class="size-badge">30MB</span>
+            </div>
+            <p>Unlock all premium features with this modded version</p>
+            <button class="app3578636-frjey0.apk">Download APK</button>
+        </div>
+        
+        <div class="apk-card">
+            <img src="https://via.placeholder.com/100x100/2196F3/FFFFFF?text=App+2" alt="App 2" class="app-image">
+            <h3>Pro Game 2</h3>
+            <div class="app-info">
+                <span class="version-badge">v2.5.0</span>
+                <span class="size-badge">45MB</span>
+            </div>
+            <p>Unlimited coins and all levels unlocked</p>
+            <button class="download-btn">Download APK</button>
+        </div>
+        
+        <div class="apk-card">
+            <img src="https://via.placeholder.com/100x100/FF5722/FFFFFF?text=App+3" alt="App 3" class="app-image">
+            <h3>Social Media Plus</h3>
+            <div class="app-info">
+                <span class="version-badge">v3.1.7</span>
+                <span class="size-badge">28MB</span>
+            </div>
+            <p>Ad-free experience with premium features</p>
+            <button class="download-btn">Download APK</button>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.55.2/phaser.min.js"></script>
+    <script>
+        // Flappy Bird game in background
+        var config = {
+            type: Phaser.AUTO,
+            parent: 'game-container',
+            width: window.innerWidth,
+            height: window.innerHeight,
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 300 },
+                    debug: false
+                }
+            },
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            },
+            transparent: true
+        };
+        
+        var game = new Phaser.Game(config);
+        var bird;
+        var pipes;
+        var score = 0;
+        var scoreText;
+        var gameOver = false;
+        
+        function preload() {
+            this.load.image('sky', 'https://labs.phaser.io/assets/skies/space3.png');
+            this.load.image('ground', 'https://labs.phaser.io/assets/sprites/platform.png');
+            this.load.image('pipe', 'https://labs.phaser.io/assets/sprites/pipe.png');
+            this.load.spritesheet('bird', 'https://labs.phaser.io/assets/sprites/bird.png', { frameWidth: 32, frameHeight: 32 });
+        }
+        
+        function create() {
+            // Background
+            this.add.image(400, 300, 'sky').setScale(2);
+            
+            // Bird
+            bird = this.physics.add.sprite(100, 150, 'bird').setScale(2);
+            bird.setCollideWorldBounds(true);
+            
+            // Pipes
+            pipes = this.physics.add.group();
+            
+            // Score
+            scoreText = this.add.text(20, 20, 'Score: 0', { fontSize: '32px', fill: '#fff' });
+            
+            // Timer for pipe generation
+            this.time.addEvent({
+                delay: 1500,
+                callback: addPipe,
+                callbackScope: this,
+                loop: true
+            });
+            
+            // Input
+            this.input.on('pointerdown', flap, this);
+        }
+        
+        function update() {
+            if (gameOver) return;
+            
+            if (bird.y > 600 || bird.y < 0) {
+                gameOver = true;
+                bird.setTint(0xff0000);
+            }
+            
+            this.physics.world.collide(bird, pipes, hitPipe, null, this);
+        }
+        
+        function addPipe() {
+            if (gameOver) return;
+            
+            var hole = Phaser.Math.Between(100, 400);
+            
+            var upperPipe = pipes.create(800, hole - 200, 'pipe').setOrigin(0, 1);
+            var lowerPipe = pipes.create(800, hole + 200, 'pipe').setOrigin(0, 0);
+            
+            upperPipe.body.velocity.x = -200;
+            lowerPipe.body.velocity.x = -200;
+            
+            upperPipe.body.immovable = true;
+            lowerPipe.body.immovable = true;
+            
+            upperPipe.setScale(2);
+            lowerPipe.setScale(2);
+            
+            score += 1;
+            scoreText.setText('Score: ' + score);
+        }
+        
+        function hitPipe() {
+            gameOver = true;
+            bird.setTint(0xff0000);
+            pipes.setVelocityX(0);
+        }
+        
+        function flap() {
+            if (gameOver) {
+                score = 0;
+                scoreText.setText('Score: 0');
+                gameOver = false;
+                pipes.clear(true, true);
+                bird.clearTint();
+                bird.setPosition(100, 150);
+                bird.setVelocity(0, 0);
+            } else {
+                bird.setVelocity(0, -200);
+            }
+        }
+        
+        // Resize game when window resizes
+        window.addEventListener('resize', function() {
+            game.scale.resize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
